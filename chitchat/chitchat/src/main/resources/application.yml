@@ -32,5 +32,5 @@ logging:
             sql: trace
 
 file:
-  upload-directory: employee-files
+  screen-shot-directory: screen-shots
   temp-directory: temp-files
