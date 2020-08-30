@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,5 +18,5 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
 
     @Column(name = "CREATED_ON")
-    private LocalDateTime createdOn = LocalDate.now().atStartOfDay();
+    private LocalDateTime createdOn = LocalDateTime.now();
 }

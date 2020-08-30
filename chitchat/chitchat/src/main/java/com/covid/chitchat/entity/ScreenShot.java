@@ -27,4 +27,8 @@ public class ScreenShot extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
+
+    @Lob
+    @Column(name = "BINARY_CONTENT", columnDefinition = "BLOB")
+    private byte[] binaryContent;
 }

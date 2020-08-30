@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
             "FROM User u WHERE u.username = :username ")
     boolean isDuplicateUsername(@Param("username") String username);
+
+    User getByUsername(String username);
 }

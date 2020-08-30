@@ -39,12 +39,12 @@ public class FileStorageConfig {
     }
 
     @Bean(name = "screenShotPath")
-    Path getUploadPath() {
+    Path getScreenShotPath() {
         return getPathByDirectory(this.screenShotDirectory);
     }
 
-    @Bean(name = "tempPath")
-    Path getTempPath() {
-        return getPathByDirectory(this.tempDirectory);
-    }
+//    @Bean(name = "tempPath")
+//    Path getTempPath() {
+//        return getPathByDirectory(this.tempDirectory);
+//    }
 }

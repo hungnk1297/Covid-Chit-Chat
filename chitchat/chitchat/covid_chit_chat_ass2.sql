@@ -16,6 +16,7 @@ CREATE TABLE AS2_SCREEN_SHOT (
 				  URL                   VARCHAR2(2000) NOT NULL,
 				  SCREEN_SHOT_NAME      VARCHAR2(100) NOT NULL,
                   USER_ID         		NUMBER(6) NOT NULL,
+                  BINARY_CONTENT        BLOB,
                   CREATED_ON         	TIMESTAMP(3),
                   FOREIGN KEY ("USER_ID") REFERENCES "AS2_USER" ("USER_ID")
 			);            
