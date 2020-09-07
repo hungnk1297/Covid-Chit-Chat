@@ -33,4 +33,4 @@ logging:
 
 file:
   screen-shot-directory: screen-shots
-  temp-directory: temp-files
+  temp-directory: temp

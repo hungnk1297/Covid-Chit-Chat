@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 @AllArgsConstructor
 @Slf4j
 @Component
-public class CommonUtil {
+public class Validator {
 
     private final UserRepository userRepository;
 
@@ -42,9 +42,8 @@ public class CommonUtil {
         }
     }
 
-    //  Get current Session
     public static HttpSession getSession() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true);
+        return attr.getRequest().getSession(true); // true == allow create
     }
 }

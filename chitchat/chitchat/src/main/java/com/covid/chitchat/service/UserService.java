@@ -10,4 +10,8 @@ public interface UserService {
     UserResponseDTO login(UserRequestDTO userRequestDTO);
 
     Boolean logout();
+
+    boolean existedUsername(String username);
+
+    void clearSession();
 }

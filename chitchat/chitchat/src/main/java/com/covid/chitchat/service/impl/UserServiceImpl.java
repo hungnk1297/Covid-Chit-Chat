@@ -1,5 +1,6 @@
 package com.covid.chitchat.service.impl;
 
+import com.covid.chitchat.constant.CommonConstant;
 import com.covid.chitchat.constant.CommonConstant.EntityNameConstant;
 import com.covid.chitchat.constant.CommonConstant.FieldNameConstant;
 import com.covid.chitchat.constant.RoleType;
@@ -10,8 +11,8 @@ import com.covid.chitchat.model.response.UserResponseDTO;
 import com.covid.chitchat.repository.UserRepository;
 import com.covid.chitchat.service.ScreenCaptureService;
 import com.covid.chitchat.service.UserService;
-import com.covid.chitchat.util.CommonUtil;
 import com.covid.chitchat.util.ExceptionGenerator;
+import com.covid.chitchat.util.Validator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import java.nio.file.Path;
 
 @AllArgsConstructor
@@ -29,13 +31,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final CommonUtil commonUtil;
+    private final Validator validator;
 
-    @Autowired
     private final ScreenCaptureService screenCaptureService;
 
+    @Autowired
     @Qualifier("screenShotPath")
-    private final Path capturePath;
+    private final Path screenShotPath;
 
     @Autowired
     ServletContext servletContext;
@@ -43,12 +45,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
-        if (commonUtil.isDuplicateUsername(userRequestDTO.getUsername()))
+        if (validator.isDuplicateUsername(userRequestDTO.getUsername()))
             throw new CustomException(ExceptionGenerator.duplicateUsername(userRequestDTO.getUsername()));
 
         User user = User.builder()
                 .username(userRequestDTO.getUsername())
-                .password(commonUtil.generateHashPassword(userRequestDTO.getUsername(), userRequestDTO.getPassword()))
+                .password(validator.generateHashPassword(userRequestDTO.getUsername(), userRequestDTO.getPassword()))
                 .role(userRequestDTO.getRoleType() != null ? RoleType.findByString(userRequestDTO.getRoleType()) : RoleType.USER)
                 .build();
 
@@ -66,7 +68,7 @@ public class UserServiceImpl implements UserService {
                     EntityNameConstant.USER, FieldNameConstant.USERNAME, userRequestDTO.getUsername()));
 
         //  Compare hashed password from request vs hashed password in DB
-        String tryHashPassword = commonUtil.generateHashPassword(userRequestDTO.getUsername(), userRequestDTO.getPassword());
+        String tryHashPassword = validator.generateHashPassword(userRequestDTO.getUsername(), userRequestDTO.getPassword());
         if (!tryHashPassword.equals(user.getPassword()))
             throw new CustomException(ExceptionGenerator.invalidLogin());
         else {
@@ -76,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
             try {
                 screenCaptureService.setUsername(user.getUsername());
-                screenCaptureService.setCapturePath(capturePath);
+                screenCaptureService.setCapturePath(screenShotPath);
                 screenCaptureService.refresh();
                 log.info("Screen capture of current logged in User {} start now!", user.getUsername());
                 Thread thread = new Thread(screenCaptureService);
@@ -100,6 +102,19 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             log.error("Error when trying to log out", e);
             return false;
+        }
+    }
+
+    @Override
+    public boolean existedUsername(String username) {
+        return validator.isDuplicateUsername(username);
+    }
+
+    @Override
+    public void clearSession() {
+        HttpSession session = Validator.getSession();
+        for (String atr : CommonConstant.AttributeConstant.ALL_ATTRIBUTES) {
+            session.removeAttribute(atr);
         }
     }
 

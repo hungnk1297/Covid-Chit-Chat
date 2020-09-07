@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <title>Activity Logs</title>
+</head>
+<body class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/home}">Back To Home</a>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+
+    <table border="2px solid" style="margin: 3px; padding: 3px">
+        <thead style="text-align: center">
+        <td>User</td>
+        <td>Log Type</td>
+        <td>Time</td>
+        </thead>
+
+        <tbody>
+        <th:block th:each="log : ${activityLogs}">
+            <tr>
+                <td th:text="${log.getUsername()}"></td>
+                <td th:text="${log.getLogType()}"></td>
+                <td th:text="${log.getLogTime()}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+
+</div>
+
+<script type="text/javascript"
+        th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

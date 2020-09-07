@@ -43,8 +43,8 @@ public class FileStorageConfig {
         return getPathByDirectory(this.screenShotDirectory);
     }
 
-//    @Bean(name = "tempPath")
-//    Path getTempPath() {
-//        return getPathByDirectory(this.tempDirectory);
-//    }
+    @Bean(name = "tempPath")
+    Path getTempPath() {
+        return getPathByDirectory(this.tempDirectory);
+    }
 }

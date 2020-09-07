@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <title>Screen Capture Logs</title>
+</head>
+<body class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/home}">Back To Home</a>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+
+    <h3>Click on each file to download Screenshot, the name format of the screenshots is:</h3>
+    <h3><b>username_yyyy-MM-dd_hh-mm-ss_a</b></h3>
+
+    <th:block th:each="screenCap : ${screenCaps}">
+        <div>
+            <a th:href="@{|/log/screen-cap/download/?id=${screenCap.screenShotID}|}"
+               th:text="${screenCap.getScreenShotName()}"
+               th:target="_blank"></a>
+        </div>
+    </th:block>
+
+</div>
+
+<script type="text/javascript"
+        th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
