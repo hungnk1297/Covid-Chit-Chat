@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script type="text/javascript" th:src="@{webjars/jquery/3.1.1-1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/sockjs-client/sockjs.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/stomp-websocket/stomp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/chat.js}"></script>
+
+</head>
+<body class="container">
+<h3>
+    Welcome, <i th:text="${session.userLoggedIn}"></i>
+</h3>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/user/logout}">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+
+    <div th:if="${session.role == 'A'}">
+        <h3>You are Administrator</h3>
+        <p><a class="navbar-brand" href="#" th:href="@{/log/activity}">View Activities Log</a></p>
+        <p><a class="navbar-brand" href="#" th:href="@{/log/screen-cap}">View Screen Capture Log</a></p>
+    </div>
+
+    <!--    Chat-->
+    <div class="row">
+        <input type="text" id="name" class="form-control" th:hidden="true" th:value="${session.userLoggedIn}">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Greetings</th>
+                </tr>
+                </thead>
+                <tbody id="chat-content">
+                </tbody>
+            </table>
+        </div>
+        <!--        Msg form-->
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" id="message-content" class="form-control" placeholder="Enter your chat...">
+            </div>
+            <button id="send" class="btn btn-default" type="submit">Send</button>
+        </form>
+        <!--        Msg form-->
+    </div>
+    <!--    Chat-->
+
+
+</div>
+
+</body>
+</html>
