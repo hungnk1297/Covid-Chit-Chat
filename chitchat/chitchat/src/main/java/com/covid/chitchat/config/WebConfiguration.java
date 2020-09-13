@@ -1,9 +1,10 @@
 package com.covid.chitchat.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-//@Configuration
+@Configuration
 public class WebConfiguration extends WebMvcConfigurationSupport {
 
     @Override
@@ -11,7 +12,12 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/resources/")
-                .addResourceLocations("classpath:/temp/")
-        ;
+                .addResourceLocations("classpath:/temp/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("/webjars/")
+                .resourceChain(false);
+//        registry.addResourceHandler("/webjars/**")
+//                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
